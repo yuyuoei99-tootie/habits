@@ -1,0 +1,9 @@
+{
+  "name": "HydroPulse",
+  "description": "A gamified fit-tech quest app with active boss fights, daily habits, avatar evolution, cosmetic gear shop, and AI-powered vision and performance verification.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

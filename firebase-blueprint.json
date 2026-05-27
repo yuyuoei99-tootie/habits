@@ -1,0 +1,45 @@
+{
+  "entities": {
+    "PlayerProfile": {
+      "title": "PlayerProfile",
+      "description": "User profile containing level, biometrics counters, coins, active equips, and habit histories.",
+      "type": "object",
+      "properties": {
+        "level": { "type": "integer", "description": "The active experience level of the character." },
+        "xp": { "type": "integer", "description": "XP progress towards the next level." },
+        "tokens": { "type": "integer", "description": "The current coin/gold balance." },
+        "xpToNextLevel": { "type": "integer", "description": "XP required to level up." },
+        "bossHp": { "type": "integer", "description": "Active health of the arena boss." },
+        "xpFreeze": { "type": "boolean", "description": "Flag indicating if XP gains are frozen." },
+        "tokensSpent": { "type": "integer", "description": "Total gold spent in shop." },
+        "perfectDaysCount": { "type": "integer", "description": "Number of days where all and every habits are completed." },
+        "bestStreak": { "type": "integer", "description": "Longest active logging streak." },
+        "equippedCosmetics": {
+          "type": "array",
+          "description": "Listed skin names and graphics locked into slot."
+        },
+        "purchasedItemIds": {
+          "type": "array",
+          "description": "Inventory of items bought from shop."
+        },
+        "lastCheckedDate": { "type": "string", "description": "YYYY-MM-DD string for diurnal reset tracker." },
+        "stretchingCount": { "type": "integer", "description": "Total stretches logged." },
+        "mealsCount": { "type": "integer", "description": "Total clean meals logged." },
+        "swimCount": { "type": "integer", "description": "Total swimming sessions logged." },
+        "stretchingHistory": { "type": "array", "description": "7-day array of daily logs count for stretches." },
+        "mealsHistory": { "type": "array", "description": "7-day array of daily logs count for clean meals." },
+        "swimHistory": { "type": "array", "description": "7-day array of daily logs count for swims." },
+        "multiplier": { "type": "number", "description": "Reward multiplier (1.0x to 1.5x)." },
+        "consecutiveDays": { "type": "integer", "description": "Active streak count." },
+        "questsJson": { "type": "string", "description": "Serialized dynamic state array of the daily Habit Quests." }
+      },
+      "required": ["level", "xp", "tokens", "bossHp", "multiplier", "consecutiveDays"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "PlayerProfile",
+      "description": "Sub-root containing individual isolated user records."
+    }
+  }
+}

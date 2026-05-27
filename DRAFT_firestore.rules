@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Deny Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Is the user authenticated and accessing their own document?
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // Helper to validate basic fields of a PlayerProfile
+    function isValidPlayerProfile(data) {
+      return data.level is int && data.level >= 1
+          && data.xp is int && data.xp >= 0
+          && data.tokens is int && data.tokens >= 0
+          && data.bossHp is int && data.bossHp >= 0
+          && data.multiplier is number && data.multiplier >= 1.0
+          && data.consecutiveDays is int && data.consecutiveDays >= 0;
+    }
+
+    // Users Collection match block
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidPlayerProfile(request.resource.data);
+      allow update: if isOwner(userId) && isValidPlayerProfile(request.resource.data);
+      allow delete: if false; // Profiles are permanent once crafted
+    }
+  }
+}
